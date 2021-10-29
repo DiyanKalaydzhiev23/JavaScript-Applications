@@ -1,0 +1,17 @@
+POST /jsonstore/phonebook HTTP/1.1
+Host: localhost:3030
+Content-Type: application/json
+Content-Length: 62
+
+{
+    "person": "Ivan Ivanov",
+    "phone": "088513725"
+}
+
+Result:
+
+{
+    "person": "Ivan Ivanov",
+    "phone": "088513725",
+    "_id": "eff77d90-1ba2-465e-9541-1ab4baa923ae"
+}

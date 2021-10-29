@@ -1,0 +1,66 @@
+GET /jsonstore/bus/businfo/1308 HTTP/1.1
+Host: localhost:3030
+
+Result: 
+
+{
+    "buses": {
+        "4": 13,
+        "12": 6,
+        "18": 7
+    },
+    "name": "St. Nedelya sq."
+}
+
+
+GET /jsonstore/bus/businfo/1287 HTTP/1.1
+Host: localhost:3030
+
+Result:
+
+{
+    "buses": {
+        "76": 15,
+        "84": 10,
+        "204": 10,
+        "213": 18,
+        "280": 9,
+        "306": 31,
+        "604": 11
+    },
+    "name": "Orlov Most sq."
+}
+
+
+GET /jsonstore/bus/businfo/1327 HTTP/1.1
+Host: localhost:3030
+
+Result:
+
+{
+    "buses": {
+        "78": 18,
+        "85": 20,
+        "213": 18,
+        "285": 20,
+        "305": 18,
+        "404": 18,
+        "413": 16
+    },
+    "name": "Central Train Station sq."
+}
+
+
+GET /jsonstore/bus/businfo/2334 HTTP/1.1
+Host: localhost:3030
+
+
+Result:
+
+{
+    "buses": {
+        "20": 11,
+        "22": 4
+    },
+    "name": "Centralni Hali"
+}
