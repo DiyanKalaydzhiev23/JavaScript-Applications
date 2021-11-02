@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const exam = new Date(2022, 4, 29);
+        const today = new Date();
+        const time = Math.ceil((exam - today) / (1000 * 60 * 60 * 24));
+        
+        const phrases = [
+            'Но ти знаеш, че е безсмислено...',
+            'Не скачай!',
+            'Завърни се в отвъдното.',
+            'Давай химик, учи БИОЛОГИЯ!',
+            'Ако скочиш през вратата, когато тя се отвори, там ще те чака, това което живот си се старал да си спомниш - Биологията',
+            'Биологията не съди!',
+            'Избивай ги момче!',
+            'Без химия няма физика- без биология, няма Мети!',
+            'Докато не е Мети беше, мети може повече по био!',
+            'Качи ло и ходи да учищ!'
+        ];
+
+        const phrase = phrases[Math.floor(Math.random() * 9)];
+        alert(`Здравейте г-н Отвъден! Имате ${time} дни до изпита. ${phrase}`);
+    </script>
+</body>
+</html>
