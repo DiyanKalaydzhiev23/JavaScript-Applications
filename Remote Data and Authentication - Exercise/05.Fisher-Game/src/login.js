@@ -48,8 +48,6 @@ async function login(e) {
     } catch (e) {
         notification.textContent = e.message;
     }
-
-
 }
 
 
