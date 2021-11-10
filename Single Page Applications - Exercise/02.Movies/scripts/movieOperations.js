@@ -1,4 +1,10 @@
 import { displayElement } from './app.js';
+import { displayEdit } from './edit.js';
+import { deleteMovie } from './delete.js';
+
+function userData() {
+    return JSON.parse(sessionStorage.getItem('userData'));
+}
 
 async function getMovies(searchedAttr, value) {
     const url = 'http://localhost:3030/data/movies';
@@ -66,32 +72,96 @@ async function details(e) {
         </div>
     `;
 
-    if (movieInfo._ownerId === JSON.parse(sessionStorage.getItem('userData')).id) {
-        const deleteBtn = document.createElement('a');
-        const editBtn = document.createElement('a');
+    const div = section.querySelectorAll('div')[3];
 
-        deleteBtn.className = 'btn btn-danger';
-        editBtn.className = 'btn btn-warning';
+    try {
+        if (movieInfo._ownerId === userData().id) {
+            const deleteBtn = document.createElement('a');
+            const editBtn = document.createElement('a');
+    
+            deleteBtn.className = 'btn btn-danger';
+            editBtn.className = 'btn btn-warning';
+    
+            deleteBtn.textContent = 'Delete';
+            editBtn.textContent = 'Edit';
 
-        deleteBtn.textContent = 'Delete';
-        editBtn.textContent = 'Edit';
+            deleteBtn.addEventListener('click', (e) => deleteMovie(e, movieInfo._id));
+            editBtn.addEventListener('click', () => displayEdit(movieInfo._id));
+    
+            div.append(deleteBtn);
+            div.append(editBtn);
+        } else if (await checkIfLiked(movieInfo._id) == undefined) {
+            const likeBtn = document.createElement('a');
+    
+            likeBtn.className = 'btn btn-primary';
+            likeBtn.textContent = 'Like';
+            
+            likeBtn.addEventListener('click', (e) => like(e, movieInfo._id, likeBtn));
+            div.append(likeBtn);
+        }
+    } catch (e) {}
 
-        section.append(deleteBtn);
-        section.append(editBtn);
-    } else {
-        const likeBtn = document.createElement('a');
+    const likes = document.createElement('span');
+    const likesCount = await getLikesForMovie(movieInfo._id)
 
-        likeBtn.className = 'btn btn-primary';
-        likeBtn.textContent = 'Like';
-
-        section.append(likeBtn);
-    }
+    likes.className = 'enrolled-span';
+    likes.textContent = `Liked ${likesCount}`;
+    
+    div.append(likes);
 
     if (section.style.display === 'block') {
         section.style.display = 'none';
     } else {
         displayElement('movie-example');
     }
+}
+
+async function checkIfLiked(movieId) {
+    const url = 'http://localhost:3030/data/likes';
+    const response = await fetch(url);
+    const data = await response.json();
+
+    for (let m of data) {
+        if (m.movieId === movieId) {
+            if (m.likedBy === userData().id) {
+                return true;
+            }
+        }
+    }
+}
+
+async function getLikesForMovie(movieId) {
+    const url = 'http://localhost:3030/data/likes';
+    const response = await fetch(url);
+    const data = await response.json();
+    let likes = 0;
+
+    for (let m of data) {
+        if (m.movieId === movieId) {
+            likes += 1;
+        }
+    }
+
+    return likes;
+}
+
+async function like(e, movieId, likeBtn) {
+    const likes = await getLikesForMovie(movieId) + 1;
+
+    const url = 'http://localhost:3030/data/likes';
+    const data = {movieId, likedBy: userData().id};
+    const options = {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json.',
+            'X-Authorization': userData().token
+        },
+        body: JSON.stringify(data)
+    };
+
+    await fetch(url, options);
+    e.target.parentNode.querySelector('span').textContent = `Liked ${likes}`;
+    likeBtn.remove();
 }
 
 async function createMovie(title, description, img) {
@@ -105,7 +175,7 @@ async function createMovie(title, description, img) {
         method: 'post',
         headers: {
             'Content-Type': 'application/json.',
-            'X-Authorization': `${JSON.parse(sessionStorage.getItem('userData')).token}`
+            'X-Authorization': `${userData().token}`
         },
         body: JSON.stringify(data)
     }
@@ -119,4 +189,4 @@ async function createMovie(title, description, img) {
 }
 
 
-export {displayMovies, createMovie, getMovies};
+export {displayMovies, createMovie, getMovies, userData};

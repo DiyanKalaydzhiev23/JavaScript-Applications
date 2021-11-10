@@ -1,7 +1,8 @@
 import {displayRegister} from "./register.js";
 import { displayLogin } from "./login.js";
 import { displayAddMovieForm } from "./addMovie.js";
-import { displayMovies, getMovies } from "./movieOperations.js";
+import { displayMovies } from "./movieOperations.js";
+import { logout } from "./logout.js";
 
 const addMovieForm = document.getElementById('add-movie');
 const movieExample = document.getElementById('movie-example');
@@ -25,9 +26,11 @@ function displayElement(id, remove) {
 function addEvents() {
     const navigation = document.getElementsByClassName('nav-link');
     const addMovieBtn = document.getElementById('add-movie-button');
-
+    
+    navigation[1].addEventListener('click', logout);
     navigation[2].addEventListener('click', displayLogin);
     navigation[3].addEventListener('click', displayRegister);
+    
     addMovieBtn.addEventListener('click', displayAddMovieForm);
 }
 
@@ -46,6 +49,7 @@ function createError(message, parent) {
 
 displayElement('home-page', true);
 displayElement('movie');
+displayElement('title');
 addEvents();
 
 export {displayElement, createError};
