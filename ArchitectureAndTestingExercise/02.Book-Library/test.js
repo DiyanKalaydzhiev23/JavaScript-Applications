@@ -56,16 +56,17 @@ describe('tests for Book Library', () => {
         expect(data.author).to.be.equal('K.J. Bowling');
     }).timeout(10000);
 
-    it.only('should delete book', async () => {
+    it('should delete book', async () => {
         await page.goto(host);
         await page.click('#loadBooks');
-        await page.click('text=Delete');
         
-        // const [request] = await Promise.all([
-        //     page.waitForRequest(request => request.method() == 'delete'),
-            
-            
-        // ]);
-        // console.log(1);
+        page.on('dialog', dialog => dialog.accept());
+
+        const [request] = await Promise.all([
+            page.waitForRequest(request => request.method() == 'DELETE'),
+            page.click('text=Delete')
+        ]);
+
+        expect(request.method()).to.equal('DELETE');
     }).timeout(10000);
 });

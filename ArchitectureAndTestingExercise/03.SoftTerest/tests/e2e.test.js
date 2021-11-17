@@ -1,4 +1,5 @@
 //@ts-check
+const { describe } = require('mocha');
 const { chromium } = require('playwright-chromium');
 const { expect } = require('chai');
 

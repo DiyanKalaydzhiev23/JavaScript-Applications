@@ -7,14 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="scripts/app.js" type="module"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light section" id="nav">
         <div class="container">
             <a class="navbar-brand" href="">
-                <img src="./images/idea.png" alt="">
+                <img src="./images/idea.png" alt="" class="lamp">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,10 +32,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="">Logout</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="navLogin">
                         <a class="nav-link" href="">Login</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="navRegister">
                         <a class="nav-link" href="">Register</a>
                     </li>
                 </ul>
@@ -42,7 +43,7 @@
         </div>
     </nav>
 
-    <div class="container home wrapper  my-md-5 pl-md-5">
+    <div class="container home wrapper  my-md-5 pl-md-5 section" id="home">
         <div class="d-md-flex flex-md-equal ">
             <div class="col-md-5">
                 <img class="responsive" src="./images/01.svg" />
@@ -60,7 +61,7 @@
         </div>
     </div>
 
-    <div class="container home wrapper  my-md-5 pl-md-5">
+    <div class="container home wrapper  my-md-5 pl-md-5 section" id='registerForm'>
         <div class="row-form d-md-flex flex-mb-equal ">
             <div class="col-md-4">
                 <img class="responsive" src="./images/idea.png" alt="">
@@ -84,10 +85,10 @@
                     <input type="password" id="inputRepeatPassword" name="repeatPassword" class="form-control"
                         placeholder="Repeat Password" required="">
                 </div>
-                <button class="btn btn-lg btn-dark btn-block" type="submit">Sign Up</button>
+                <button id="signUpBtn" class="btn btn-lg btn-dark btn-block" type="submit">Sign Up</button>
                 <div class="text-center mb-4">
-                    <p class="alreadyUser"> Don't have account? Then just
-                        <a href="">Sign-In</a>!
+                    <p class="alreadyUser"> You have account? Then just
+                        <a href="" id="signInLink">Sign-In</a>!
                     </p>
                 </div>
                 <p class="mt-5 mb-3 text-muted text-center">© SoftTerest - 2019.</p>
@@ -95,7 +96,7 @@
         </div>
     </div>
 
-    <div class="container home wrapper  my-md-5 pl-md-5">
+    <div class="container home wrapper  my-md-5 pl-md-5 section" id="loginForm">
         <div class="row-form d-md-flex flex-mb-equal ">
             <div class="col-md-4">
                 <img class="responsive" src="./images/idea.png" alt="">
@@ -115,9 +116,9 @@
                         placeholder="Password" required="">
                 </div>
                 <div class="text-center mb-4 text-center">
-                    <button class="btn btn-lg btn-dark btn-block" type="submit">Sign In</button>
+                    <button class="btn btn-lg btn-dark btn-block" type="submit" id="signInBtn">Sign In</button>
                     <p class="alreadyUser"> Don't have account? Then just
-                        <a href="">Sign-Up</a>!
+                        <a href="" id="signUpLink">Sign-Up</a>!
                     </p>
                 </div>
                 <p class="mt-5 mb-3 text-muted text-center">© SoftTerest - 2019.</p>
@@ -125,7 +126,7 @@
         </div>
     </div>
 
-    <div id="dashboard-holder">
+    <div id="dashboard-holder" class="section">
         <div class="card overflow-hidden current-card details" style="width: 20rem; height: 18rem;">
             <div class="card-body">
                 <p class="card-text">Dinner Recipe</p>
@@ -150,7 +151,7 @@
         <h1>No ideas yet! Be the first one :)</h1>
     </div>
 
-    <div class="container home some">
+    <div class="container home some section">
         <img class="det-img" src="./images/dinner.jpg" />
         <div class="desc">
             <h2 class="display-5">Dinner Recipe</h2>
@@ -166,7 +167,7 @@
         </div>
     </div>
 
-    <div class="container home wrapper  my-md-5 pl-md-5">
+    <div class="container home wrapper  my-md-5 pl-md-5 section">
         <div class=" d-md-flex flex-mb-equal ">
             <div class="col-md-6">
                 <img class="responsive-ideas create" src="./images/creativity_painted_face.jpg" alt="">
@@ -198,7 +199,7 @@
         </div>
     </div>
 
-    <footer class="footer">
+    <footer class="footer section" id="footer">
         <div class="container-footer">
             <span>© We cherish your ideas! Share them with others!</span>
         </div>
