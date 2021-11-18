@@ -1,4 +1,4 @@
-import {html, render} from  'https://unpkg.com/lit-html?module';
+import {html, render} from 'https://unpkg.com/lit-html?module';
 
 const url = 'http://localhost:3030/jsonstore/advanced/dropdown';
 const root = document.getElementById('menu');
