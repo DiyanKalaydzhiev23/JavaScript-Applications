@@ -12,7 +12,44 @@ const endpoints = {
         return `http://localhost:3030/data/books?where=_ownerId%3D%22${userData.id}%22&sortBy=_createdOn%20desc`
     },
     getById: (id) => { return `http://localhost:3030/data/games/${id}`},
-    commentsForGame: (gameId) => { return `http://localhost:3030/data/comments?where=gameId%3D%22${gameId}%22`}
+    commentsForGame: (gameId) => { return `http://localhost:3030/data/comments?where=gameId%3D%22${gameId}%22`},
+    createComment: () => { return 'http://localhost:3030/data/comments' }
+}
+
+const options = {
+    postLogReg: (data) => { return {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+    },
+    post: (data, userData) => { return {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': userData.token
+            },
+            body: JSON.stringify(data)
+        };
+    },
+    put: (data, userData) => { return {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': userData.token
+            },
+            body: JSON.stringify(data)
+        };
+    },
+    delete: (userData) =>  { return {
+            method: 'delete',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Authorization': userData.token
+            },
+            body: '{}'
+        };
+    }
 }
 
 
@@ -61,21 +98,16 @@ async function register(email, password) {
         email,
         password,
     };
-    const options = {
-        method: 'post',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-    };
 
     try {
-        const response = await fetch(url, options);
-        const data = await response.json();
+        const response = await fetch(url, options.postLogReg(data));
+        const responseData = await response.json();
 
         if (response.status == 200) {
-            sessionStorage.setItem('authToken', data.accessToken);
+            sessionStorage.setItem('authToken', responseData.accessToken);
             page.redirect('/home');
         } else {
-            throw new Error(data.message);
+            throw new Error(response.status);
         }
     } catch (e) {
         alert(e.message);
@@ -88,14 +120,9 @@ async function login(email, password) {
         email,
         password
     };
-    const options = {
-        method: 'post',
-        headers: {'Content-Type': 'application/json.'},
-        body: JSON.stringify(data)
-    }
 
     try {
-        const response = await fetch(url, options);
+        const response = await fetch(url, options.postLogReg(data));
 
         if (response.status == 200) {
             sessionStorage.setItem('authToken', response.accessToken);
@@ -121,16 +148,7 @@ async function login(email, password) {
 async function update(id, data) {
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     const url = endpoints.getById(id);
-    const options = {
-        method: 'put',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Authorization': userData.token
-        },
-        body: JSON.stringify(data)
-    };
-
-    const response = await fetch(url, options);
+    const response = await fetch(url, options.put(data, userData));
 
     if (response.status == 200) {
         page.redirect('/home');
@@ -142,16 +160,7 @@ async function update(id, data) {
 async function deleteRecord(id) {
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     const url = endpoints.getById(id);
-    const options = {
-        method: 'delete',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Authorization': userData.token
-        },
-        body: '{}'
-    };
-
-    const response = await fetch(url, options);
+    const response = await fetch(url, options.delete(userData));
 
     if (response.status == 200) {
         page.redirect('/home');
@@ -165,19 +174,22 @@ async function getCommentForGame(gameId) {
     return await getProceed(url);
 }
 
+async function createComment(data) {
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
+    const url = endpoints.createComment();
+    const response = await fetch(url, options.post(data, userData));
+
+    if (response.status == 200) {
+        page.redirect(`/details/${data.gameId}`);
+    } else {
+        alert(`Error: ${response.status}`);
+    }
+}
+
 async function create(data) {
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     const url = endpoints.create();
-    const options = {
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Authorization': userData.token
-        },
-        body: JSON.stringify(data)
-    };
-
-    const response = await fetch(url, options);
+    const response = await fetch(url, options.post(data, userData));
 
     if (response.status == 200) {
         page.redirect('/home');
@@ -199,6 +211,7 @@ export {
     update,
     deleteRecord,
     getCommentForGame,
+    createComment,
     register,
     login,
     logout
