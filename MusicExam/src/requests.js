@@ -65,7 +65,8 @@ async function register(email, password) {
 
         if (response.status == 200) {
             sessionStorage.setItem('authToken', responseData.accessToken);
-            page.redirect('/home');
+            
+            await login(email, password);
         } else {
             throw new Error(response.status);
         }

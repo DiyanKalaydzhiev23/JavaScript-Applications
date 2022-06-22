@@ -16,7 +16,8 @@
     left: 0;
     top: 40%;
     text-align: center;
-    width: 30%
+    width: 30%;
+    left: 35%;
 }
 
 #welcome-world>img {
